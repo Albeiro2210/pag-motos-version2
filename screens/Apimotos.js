@@ -2,15 +2,7 @@ import axios from 'axios';
 
 export const fetchData = async () => {
   try {
-    const response = await axios.get(
-      'https://motorcycle-specs-database.p.rapidapi.com/motorcycles',
-      {
-        headers: {
-          'x-rapidapi-key': 'aa155b9a64msh10b9c4acbf2fa56p15e2c9jsn9bbd4ed2ee96',
-          'x-rapidapi-host': 'motorcycle-specs-database.p.rapidapi.com',
-        },
-      }
-    );
+    const response = await axios.get('https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Motorcycles&format=json');
 
     console.log(response.data); 
     return response.data;

@@ -108,13 +108,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
+    width: '60%',
+    minHeight: 60,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 14,
+    fontStyle: 'italic',
     textAlign: 'center',
   },
 });

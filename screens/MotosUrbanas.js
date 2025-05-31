@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: 16,
-    fontWeight: 'bold',
     marginBottom: 10,
   },
   buttonContainer: {
@@ -108,13 +107,16 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   button: {
+    width: '60%',
+    borderRadius: 15,
     paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 60,
   },
   buttonText: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 14,
+    fontStyle: 'italic',
     textAlign: 'center',
   },
 });

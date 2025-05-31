@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#000', // texto siempre negro
+    color: '#000', 
   },
   item: {
     width: width * 0.9,
@@ -105,12 +105,12 @@ const styles = StyleSheet.create({
   nombre: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000', // texto siempre negro
+    color: '#000', 
   },
   rating: {
     fontSize: 16,
     marginTop: 5,
-    color: '#000', // texto siempre negro
+    color: '#000', 
   },
   botonContainer: {
     marginTop: 30,
@@ -126,5 +126,6 @@ const styles = StyleSheet.create({
   botonTexto: {
     fontSize: 16,
     fontWeight: 'bold',
+    alignItems: 'center',
   },
 });

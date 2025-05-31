@@ -26,12 +26,12 @@ const PaginaPrincipal = ({ navigation }) => {
 
           <View style={styles.botones}>
             {[
-              { label: 'DEPORTIVAS', route: 'MOTOS_DEPORTIVAS' },
-              { label: 'URBANAS', route: 'MOTOS_URBANAS' },
-              { label: 'TODO TERRENO', route: 'MOTOS_TODO_TERRENO' },
-              { label: 'ADVENTURE', route: 'MOTOS_ADVENTURE' },
-              { label: 'VER RESUMEN DE CALIFICACIONES', route: 'ResumenCalificaciones' },
-              { label: 'VER DATOS DE MOTO', route: 'DatosMoto' } // ✅ NUEVO BOTÓN
+              { label: 'Deportivas', route: 'MOTOS_DEPORTIVAS' },
+              { label: 'Urbanas', route: 'MOTOS_URBANAS' },
+              { label: 'Todo Terreno', route: 'MOTOS_TODO_TERRENO' },
+              { label: 'Adventure', route: 'MOTOS_ADVENTURE' },
+              { label: 'Ver Resumen De Calificaciones', route: 'ResumenCalificaciones' },
+              { label: 'Ver Datos De Moto', route: 'DatosMoto' }
             ].map(({ label, route }) => (
               <Pressable
                 key={route}
@@ -116,11 +116,15 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 15,
     paddingVertical: 12,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center', 
+    minHeight: 60              
   },
   botonTexto: {
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 14,
+    fontStyle: 'calibri',
+    fontWeight: 'normal',
+    textAlign: 'center'
   },
   videoContainer: {
     width: '100%',
