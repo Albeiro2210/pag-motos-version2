@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-import { useTheme } from '../ThemeContext'; // Ajusta la ruta si es necesario
+import { useTheme } from '../ThemeContext';
+import StarRating from '../components/StarRating';
+import { saveRating, getRating } from '../storage/ratingStorage'; 
 
-export default function MotosDeportivas() {
+export default function motosAdventure() {
   const navigation = useNavigation();
   const { theme } = useTheme();
+  const [rating, setRating] = useState(0);
+  const motoId = 'moto_adventure'; 
+
+  useEffect(() => {
+    const loadRating = async () => {
+      const storedRating = await getRating(motoId);
+      setRating(storedRating);
+    };
+    loadRating();
+  }, []);
+
+  const handleRatingChange = async (newRating) => {
+    setRating(newRating);
+    await saveRating(motoId, newRating);
+  };
 
   const vibracionProlongada = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -29,10 +46,17 @@ export default function MotosDeportivas() {
       <View style={[styles.bottomContent, { backgroundColor: theme.colors.overlay }]}>
         <Text style={[styles.text, { color: theme.colors.text }]}>
           Una moto adventure, también conocida como moto de doble propósito, trail o big trail,
-          es una motocicleta diseñada para ser utilizada tanto en carretera como en terrenos off-road.
-          Son versátiles y robustas, con características como suspensión de largo recorrido, neumáticos
-          de tacos y mayor distancia al suelo para afrontar diferentes superficies.
+          es una motocicleta diseñada para ser utilizada tanto en carretera como en terrenos off-road...
         </Text>
+
+        <View style={styles.ratingSection}>
+          <Text style={[styles.ratingText, { color: theme.colors.text }]}>Valora esta clasificación:</Text>
+          <StarRating rating={rating} onChange={handleRatingChange} />
+          <Text style={[styles.ratingText, { color: theme.colors.text }]}>
+            Tu calificación: {rating} estrella{rating !== 1 ? 's' : ''}
+          </Text>
+        </View>
+
         <View style={styles.buttonContainer}>
           <Pressable
             onPress={handlePress}
@@ -69,6 +93,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'justify',
   },
+  ratingSection: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  ratingText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
   buttonContainer: {
     marginTop: 10,
     marginBottom: 30,
@@ -84,6 +116,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-
-

@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import * as Haptics from 'expo-haptics'; 
-import { useTheme } from '../ThemeContext'; // Ajusta la ruta si es necesario
+import * as Haptics from 'expo-haptics';
+import { useTheme } from '../ThemeContext';
+import StarRating from '../components/StarRating';
+import { saveRating, getRating } from '../storage/ratingStorage'; 
 
 export default function MotosDeportivas() {
   const navigation = useNavigation();
   const { theme } = useTheme();
+  const [rating, setRating] = useState(0);
+  const motoId = 'moto_deportiva'; 
+
+  useEffect(() => {
+    const loadRating = async () => {
+      const storedRating = await getRating(motoId);
+      setRating(storedRating);
+    };
+    loadRating();
+  }, []);
+
+  const handleRatingChange = async (newRating) => {
+    setRating(newRating);
+    await saveRating(motoId, newRating); 
+  };
 
   const vibracionProlongada = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -29,17 +46,22 @@ export default function MotosDeportivas() {
       <View style={[styles.bottomContent, { backgroundColor: theme.colors.overlay }]}>
         <Text style={[styles.text, { color: theme.colors.text }]}>
           Las motos deportivas son motocicletas diseñadas y optimizadas para la velocidad, aceleración,
-          frenado y manejo en curvas, tanto en pistas como en carreteras de asfalto. Se caracterizan por su
-          diseño aerodinámico, posición de conducción inclinada hacia adelante y motores de alta potencia.
-          Su objetivo principal es ofrecer un rendimiento excepcional y una experiencia de conducción emocionante.
+          frenado y manejo en curvas, tanto en pistas como en carreteras de asfalto...
         </Text>
+
+        <View style={styles.ratingContainer}>
+          <Text style={[styles.ratingLabel, { color: theme.colors.text }]}>Valora esta clasificación:</Text>
+          <StarRating rating={rating} onChange={handleRatingChange} />
+          <Text style={[styles.ratingLabel, { color: theme.colors.text }]}>
+            Tu calificación: {rating} estrella{rating !== 1 ? 's' : ''}
+          </Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           <Pressable
             onPress={handlePress}
             style={({ pressed }) => [
               styles.button,
-              styles.boton,
               { backgroundColor: pressed ? '#b19cd9' : theme.colors.button }
             ]}
           >
@@ -70,6 +92,15 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     textAlign: 'justify',
+  },
+  ratingContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  ratingLabel: {
+    fontSize: 16,
+    marginBottom: 10,
+    fontWeight: 'bold',
   },
   buttonContainer: {
     marginTop: 10,

@@ -1,26 +1,13 @@
-import React, { useEffect } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  Dimensions,
-  Pressable
-} from 'react-native';
+import React from 'react';
+import { ScrollView, View, Text, ImageBackground, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { Video } from 'expo-av';
 import * as Haptics from 'expo-haptics';
-import { fetchData } from './Apimotos';
 import { useTheme } from '../ThemeContext';
 
 const { width } = Dimensions.get('window');
 
 const PaginaPrincipal = ({ navigation }) => {
   const { theme, toggleTheme } = useTheme();
-
-  useEffect(() => {
-    fetchData().then(data => console.log(data));
-  }, []);
 
   const vibracionProlongada = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -42,7 +29,9 @@ const PaginaPrincipal = ({ navigation }) => {
               { label: 'DEPORTIVAS', route: 'MOTOS_DEPORTIVAS' },
               { label: 'URBANAS', route: 'MOTOS_URBANAS' },
               { label: 'TODO TERRENO', route: 'MOTOS_TODO_TERRENO' },
-              { label: 'ADVENTURE', route: 'MOTOS_ADVENTURE' }
+              { label: 'ADVENTURE', route: 'MOTOS_ADVENTURE' },
+              { label: 'VER RESUMEN DE CALIFICACIONES', route: 'ResumenCalificaciones' },
+              { label: 'VER DATOS DE MOTO', route: 'DatosMoto' } // ✅ NUEVO BOTÓN
             ].map(({ label, route }) => (
               <Pressable
                 key={route}
@@ -152,6 +141,3 @@ const styles = StyleSheet.create({
 });
 
 export default PaginaPrincipal;
-
-
-

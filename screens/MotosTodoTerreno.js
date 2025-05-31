@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-import { useTheme } from '../ThemeContext'; // Ajusta la ruta si es necesario
+import { useTheme } from '../ThemeContext';
+import StarRating from '../components/StarRating';
+import { saveRating, getRating } from '../storage/ratingStorage'; 
 
 export default function MotosTodoTerreno() {
   const navigation = useNavigation();
   const { theme } = useTheme();
+  const [rating, setRating] = useState(0);
+  const motoId = 'moto_todo_terreno'; 
+
+  useEffect(() => {
+    const loadRating = async () => {
+      const storedRating = await getRating(motoId);
+      setRating(storedRating);
+    };
+    loadRating();
+  }, []);
+
+  const handleRatingChange = async (newRating) => {
+    setRating(newRating);
+    await saveRating(motoId, newRating); 
+  };
 
   const vibracionProlongada = async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -29,15 +46,23 @@ export default function MotosTodoTerreno() {
 
       <View style={[styles.bottomHalf, { backgroundColor: theme.colors.overlay }]}>
         <Text style={[styles.text, { color: theme.colors.text }]}>
-          Las motos todo terreno, también conocidas como "off-road", son motocicletas diseñadas para ser conducidas en terrenos difíciles y variados, como caminos de tierra, montañas, bosques y desiertos. Estas motos están especialmente diseñadas para superar obstáculos y terrenos irregulares, con características como suspensión robusta, neumáticos de agarre y un motor potente.
+          Las motos todo terreno, también conocidas como "off-road", son motocicletas diseñadas para ser
+          conducidas en terrenos difíciles y variados, como caminos de tierra, montañas, bosques y desiertos.
         </Text>
+
+        <View style={styles.ratingSection}>
+          <Text style={[styles.ratingText, { color: theme.colors.text }]}>Valora esta clasificación:</Text>
+          <StarRating rating={rating} onChange={handleRatingChange} />
+          <Text style={[styles.ratingText, { color: theme.colors.text }]}>
+            Tu calificación: {rating} estrella{rating !== 1 ? 's' : ''}
+          </Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           <Pressable
             onPress={handlePress}
             style={({ pressed }) => [
               styles.button,
-              styles.boton,
               { backgroundColor: pressed ? '#b19cd9' : theme.colors.button }
             ]}
           >
@@ -68,9 +93,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'justify',
   },
+  ratingSection: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  ratingText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   buttonContainer: {
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 50,
     alignItems: 'center',
   },
   button: {
@@ -84,4 +118,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
